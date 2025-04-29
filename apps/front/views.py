@@ -5,20 +5,20 @@ import time
 from hashlib import md5
 from io import BytesIO
 
-from Demos.FileSecurityTest import permissions
+from exts import cache, db
 from flask import Blueprint, request, render_template, current_app, make_response, session, redirect, g, jsonify, \
     url_for
 from flask_avatars import Identicon
+from flask_jwt_extended import create_access_token
 from flask_paginate import get_page_parameter, Pagination
-from exts import cache, db
 from models.auth import UserModel, Permission
 from models.post import BoardModel, PostModel, CommentModel, BannerModel
+from sqlalchemy.sql import func
 from utils import restful
 from utils.captcha import Captcha
+
 from .decorators import login_required
 from .forms import RegisterForm, LoginForm, UploadImageForm, EditProfileForm, PublicPostForm, PublicCommentForm
-from sqlalchemy.sql import func
-from flask_jwt_extended import create_access_token
 
 bp = Blueprint('front', __name__, url_prefix='/')
 
@@ -330,6 +330,7 @@ def public_comment():
     else:
         message = form.message[0]
         return restful.params_error(message=message)
+
 
 @bp.get('/cms')
 def cms():
