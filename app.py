@@ -52,4 +52,4 @@ app.cli.command("init_roles")(commands.init_roles)
 app.cli.command("bind_roles")(commands.bind_roles)
 
 if __name__ == '__main__':
-    app.run(debug=False, port=8200)  # 关闭调试模式
+    app.run(host="0.0.0.0",debug=False, port=8200)  # 关闭调试模式
