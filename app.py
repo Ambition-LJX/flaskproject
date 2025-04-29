@@ -6,7 +6,7 @@ import config
 from apps.cmsapi import cmsapi_bp
 from apps.front import front_bp
 from apps.media import media_bp
-from bbs_celery import make_celery
+
 from exts import db, mail, cache, csrf, avatars, jwt, cors
 
 app = Flask(__name__)
@@ -38,7 +38,6 @@ cors.init_app(
 csrf.exempt(cmsapi_bp)
 
 migrate = Migrate(app, db)
-mycelery = make_celery(app)
 
 # 注册蓝图
 app.register_blueprint(front_bp)
