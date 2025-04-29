@@ -1,6 +1,5 @@
 from flask import Flask, send_from_directory
 from flask_migrate import Migrate
-import logging
 
 import commands
 import config
@@ -9,14 +8,9 @@ from apps.front import front_bp
 from apps.media import media_bp
 from bbs_celery import make_celery
 from exts import db, mail, cache, csrf, avatars, jwt, cors
-import os
 
 app = Flask(__name__)
 app.config.from_object(config)
-
-# 配置日志级别
-app.logger.setLevel(logging.ERROR)  # 只显示错误级别的日志
-logging.getLogger('werkzeug').setLevel(logging.ERROR)  # 设置 werkzeug 日志级别
 
 # 初始化扩展
 db.init_app(app)
