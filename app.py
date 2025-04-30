@@ -46,9 +46,7 @@ app.register_blueprint(cmsapi_bp)
 
 # 注册命令
 app.cli.command("init_boards")(commands.init_boards)
-app.cli.command("create_test_posts")(commands.create_test_posts)
 app.cli.command("init_roles")(commands.init_roles)
-app.cli.command("bind_roles")(commands.bind_roles)
-
+app.cli.command("init_developor")(commands.init_developor)
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=False, port=8200)  # 关闭调试模式
