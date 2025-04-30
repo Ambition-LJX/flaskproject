@@ -48,5 +48,6 @@ app.register_blueprint(cmsapi_bp)
 app.cli.command("init_boards")(commands.init_boards)
 app.cli.command("init_roles")(commands.init_roles)
 app.cli.command("init_developor")(commands.init_developor)
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=False, port=8200)  # 关闭调试模式
