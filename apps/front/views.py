@@ -86,21 +86,12 @@ def email_captcha():
         # 随机的六位数字
         source = list(string.digits)
         captcha = "".join(random.sample(source, 6))
-        subject = "【注册系统】注册验证码"
-        body = "【注册系统】您的注册验证码为:%s" % captcha
+        subject = "【Python论坛】注册验证码"
+        body = "【Python论坛】您的注册验证码为:%s" % captcha
         current_app.celery.send_task("send_mail", (email, subject, body))
-
-        # cache.set(email, captcha)  # 设置缓存
-        # print(cache.get(email))  # 打印缓存中邮箱所对应的验证码
-
         # 对邮箱地址进行编码，避免特殊字符问题
-        cache_key = md5(email.encode('utf-8')).hexdigest()
-        cache.set(cache_key, captcha)  # 设置缓存
-        try:
-            print(f"邮箱 {email} 的验证码: {cache.get(cache_key)}")  # 安全打印
-        except Exception as e:
-            print(f"缓存读取错误: {e}")
-
+        cache.set(email, captcha)  # 设置缓存
+        print(cache.get(email))
         return restful.ok(message="邮件发送成功！")
 
 
@@ -170,17 +161,6 @@ def register():
             identicon = Identicon()
             filenames = identicon.generate(text=md5(email.encode('utf-8')).hexdigest())
             avatar = filenames[2]
-
-            #     user = UserModel(email=email, username=username, password=password, avatar=avatar)
-            #     db.session.add(user)
-            #     db.session.commit()
-            #     return restful.ok()
-            # else:
-            #     # form.errors中存放了所有错误信息
-            #     # form.errors:{"email":["长度不满足!"]}
-            #     message = form.message[0]
-            #     return restful.params_error(message=message)
-
             # 创建用户时不要手动设置ID，让数据库自动生成
             user = UserModel(email=email, username=username, password=password, avatar=avatar)
             try:

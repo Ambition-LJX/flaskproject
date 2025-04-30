@@ -19,7 +19,7 @@ MAIL_PORT = 587
 MAIL_USE_TLS = True
 # MAIL_USE_SSL = True
 MAIL_USERNAME = "1139721808@qq.com"
-MAIL_PASSWORD = "pdwwwprjbihjiiba"
+MAIL_PASSWORD = "unuxjewloityhibh"
 MAIL_DEFAULT_SENDER = "1139721808@qq.com"
 
 # Celery的redis配置

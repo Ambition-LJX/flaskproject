@@ -6,6 +6,7 @@ import config
 from apps.cmsapi import cmsapi_bp
 from apps.front import front_bp
 from apps.media import media_bp
+from bbs_celery import make_celery
 
 from exts import db, mail, cache, csrf, avatars, jwt, cors
 
@@ -36,8 +37,9 @@ cors.init_app(
 
 # 排除 CSRF 验证
 csrf.exempt(cmsapi_bp)
-
 migrate = Migrate(app, db)
+# 初始化 Celery
+mycelery = make_celery(app)
 
 # 注册蓝图
 app.register_blueprint(front_bp)
@@ -50,4 +52,4 @@ app.cli.command("init_roles")(commands.init_roles)
 app.cli.command("init_developor")(commands.init_developor)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",debug=False, port=8200)  # 关闭调试模式
+    app.run(host="0.0.0.0",debug=True, port=8200)  # 关闭调试模式
