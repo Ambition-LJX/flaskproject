@@ -20,7 +20,7 @@ $(function () {
                 if(result['code']==200){
                     window.location.reload();//强制重新加载当前页面。
                 }else{
-                    alert(result['message']);
+                   alert(result['message'] || "请登录后评论！");
                 }
             }
         })

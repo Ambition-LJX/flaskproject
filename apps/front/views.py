@@ -227,6 +227,7 @@ def edit_profile():
 
 
 @bp.route('/post/public/', methods=['GET', 'POST'])
+@login_required
 def public_post():
     if request.method == 'GET':
         boards = BoardModel.query.order_by(BoardModel.priority.desc()).all()
@@ -271,25 +272,16 @@ def upload_post_image():
         message = form.message[0]
         return restful.params_error(message=message)
 
-
-# @bp.route("/post/detail/<post_id>")
-# def post_detail(post_id):
-#     post_model = PostModel.query.get(post_id)
-#     return render_template("front/post_detail.html", post=post_model)
-
-
 # 帖子详情页
-@bp.get("/post/detail/<int:post_id>")
+@bp.get("/post/detail/<post_id>")
 def post_detail(post_id):
-    try:
-        post_model = PostModel.query.get(post_id)
-    except:
-        return "404"
+    post_model = PostModel.query.get(post_id)
     comment_count = CommentModel.query.filter_by(post_id=post_id).count()
-    context = {"post": post_model, "comment_count": comment_count}
-    return render_template("front/post_detail.html",
-                           **context)  # 等价于下行代码  # return render_template("front/", post=post_model,comment_count=comment_count)
-
+    context = {
+        "comment_count": comment_count,
+        "post": post_model
+    }
+    return render_template("front/post_detail.html", **context) # 等价于下行代码  # return render_template("front/", post=post_model,comment_count=comment_count)
 
 @bp.post("/comment")
 @login_required
@@ -298,7 +290,6 @@ def public_comment():
     if form.validate():
         content = form.content.data
         post_id = form.post_id.data
-        post_model = PostModel.query.get(post_id)
         try:
             post_model = PostModel.query.get(post_id)
         except Exception as e:
@@ -308,7 +299,7 @@ def public_comment():
         db.session.commit()
         return restful.ok()
     else:
-        message = form.message[0]
+        message = form.messages[0]
         return restful.params_error(message=message)
 
 
