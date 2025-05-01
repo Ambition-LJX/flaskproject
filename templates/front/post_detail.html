@@ -162,7 +162,11 @@
             {% for comment in post.comments %}
                 <li>
                     <div class="avatar-group">
-                        <img alt="" src="{{ url_for('media.get_avatar',filename=comment.author.avatar) }}">
+                        {% if comment.author.avatar and comment.author.avatar.strip() %}
+                            <img alt="" src="{{ url_for('media.get_avatar',filename=comment.author.avatar) }}">
+                        {% else %}
+                            <img alt="" src="{{ url_for('static',filename='front/images/avatar.jpg') }}">
+                        {% endif %}
                     </div>
                     <div class="comment-content">
                         <p class="author-info">
