@@ -67,7 +67,11 @@
                     {% for post in posts %}
                         <li>
                             <div class="author-avatar-group">
-                                <img alt="" src="{{ url_for('media.get_avatar',filename=post.author.avatar) }}">
+                                {% if post.author.avatar and post.author.avatar.strip() %}
+                                    <img alt="" src="{{ url_for('media.get_avatar',filename=post.author.avatar) }}">
+                                {% else %}
+                                    <img alt="" src="{{ url_for('static',filename='front/images/default-avatar.png') }}">
+                                {% endif %}
                             </div>
                             <div class="post-info-group">
                                 <p class="post-title">

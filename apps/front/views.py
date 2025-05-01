@@ -82,17 +82,16 @@ def email_captcha():
     email = request.args.get('email')
     if not email:
         return restful.params_error(message="请先输入邮箱！")
-    else:
-        # 随机的六位数字
-        source = list(string.digits)
-        captcha = "".join(random.sample(source, 6))
-        subject = "【Python论坛】注册验证码"
-        body = "【Python论坛】您的注册验证码为:%s" % captcha
-        current_app.celery.send_task("send_mail", (email, subject, body))
-        # 对邮箱地址进行编码，避免特殊字符问题
-        cache.set(email, captcha)  # 设置缓存
-        print(cache.get(email))
-        return restful.ok(message="邮件发送成功！")
+    # 随机的六位数字
+    source = list(string.digits)
+    captcha = "".join(random.sample(source, 6))
+    subject = "【Python论坛】注册验证码"
+    body = "【Python论坛】您的注册验证码为:%s" % captcha
+    current_app.celery.send_task("send_mail", (email, subject, body))
+    # 对邮箱地址进行编码，避免特殊字符问题
+    cache.set(email, captcha)  # 设置缓存
+    print(cache.get(email))
+    return restful.ok(message="邮件发送成功！")
 
 
 @bp.route('/graph/captcha/')
