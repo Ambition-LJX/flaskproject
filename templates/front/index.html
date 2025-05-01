@@ -70,7 +70,7 @@
                                 {% if post.author.avatar and post.author.avatar.strip() %}
                                     <img alt="" src="{{ url_for('media.get_avatar',filename=post.author.avatar) }}">
                                 {% else %}
-                                    <img alt="" src="{{ url_for('static',filename='front/images/default-avatar.png') }}">
+                                    <img alt="" src="{{ url_for('static',filename='front/images/avatar.jpg') }}">
                                 {% endif %}
                             </div>
                             <div class="post-info-group">
